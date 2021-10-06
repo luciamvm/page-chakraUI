@@ -1,10 +1,14 @@
 import * as React from "react";
 import _ from "lodash";
 import { FormControl, FormLabel, Select, ChakraProvider, Box, Button, Divider, Heading, HStack, Input, Popover, PopoverBody, PopoverContent,
-  PopoverTrigger, SimpleGrid, Text, useOutsideClick, VStack } from "@chakra-ui/react";
+  PopoverTrigger, SimpleGrid, Text, useOutsideClick, VStack, Flex, Center } from "@chakra-ui/react";
 import { DateObj, useDayzed, RenderProps, GetBackForwardPropsOptions, Calendar } from "dayzed";
 import * as dateFns from "date-fns";
+import { useForm } from 'react-hook-form';
+import Head from 'next/head';
 
+
+// Creating a DatePicker with https://codesandbox.io/s/quizzical-sammet-rs450?file=/src/index.tsx
 const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const DATE_FORMAT = "dd/MM/yyyy";
@@ -239,33 +243,61 @@ export const SingleDatepicker = (props: SingleDatepickerProps) => {
 
 
 
-const IndexPage = () => {
+
+
+export default function IndexPage()  {
     const [currentDate, setCurrentDate] = React.useState(new Date());
+    const {register, handleSubmit} = useForm();
+    const onSubmit = (d) =>
+      alert(JSON.stringify(d));
   return(
-    <form method="POST">
-        <Box w="300px" p={4}>
-        <FormControl id="client">
-        <FormLabel>Client</FormLabel>
-        <Select placeholder="Mar Shopping Algarve">
-          <option>Tivoli Hotels</option>
-          <option>Ombria Resort</option>
-          <option>Designer Outlet Algarve</option>
-        </Select>
-      </FormControl>
-      </Box>
+    <div >
+      <Head>
+        <title>Reporting</title>
+
+      </Head>
       
-      <Box w="300px" p={4}>
-        <Text>Start date</Text>
-        <SingleDatepicker value={currentDate} onChange={(date) => setCurrentDate(date)} />
-      </Box>
+      <Center>
+        <Text padding="70px" as='h2' fontSize='50px' color='#E53E44' isTruncated>Automate KOBU Reports</Text>
+      </Center>
+      
+      <form onSubmit={handleSubmit(onSubmit)}>
+      {/* <SimpleGrid columns={2} spacing="40px"> */}
+        <Box w="300px" p={4}>
+          <Text paddingBottom='30px' as="b" fontSize="lg">Choose for who is the report and the dates defined with him</Text>
+          <FormLabel>Client</FormLabel>
+          <Select {...register("client", {required: true})} placeholder='Chose an client..' size='md'>
+            <option>Mar Shopping Algarve</option>
+            <option>Tivoli Hotels</option>
+            <option>Ombria Resort</option>
+            <option>Designer Outlet Algarve</option>
+          </Select>
+        </Box>
+        
+        <Box w="300px" p={4} {...register("startdate", {required: true})}>
+          <FormLabel>Start date</FormLabel>
+          <SingleDatepicker value={currentDate} onChange={(date) => setCurrentDate(date)} />
+        </Box>
 
-      <Box w="300px" p={4}>
-        <Text>End date</Text>
-        <SingleDatepicker value={currentDate} onChange={(date) => setCurrentDate(date)} />
-      </Box>
+        <Box w="300px" p={4} {...register("enddate", {required: true})}>
+          <FormLabel>End date</FormLabel>
+          <SingleDatepicker value={currentDate} onChange={(date) => setCurrentDate(date)} />
+        </Box>
 
-    </form>
+        <Button mt={4} colorScheme="teal" type="submit">Submit</Button>
+      {/* </SimpleGrid> */}
+
+
+      </form>
+
+      <form method="post" action="/api/new" encType="multipart/form-data">
+        <Box w="300px" p={4}>
+          <Text paddingBottom='30px' as="b" fontSize="lg">Upload an corrected file</Text>
+          <input name="logo" type="file"/>
+          <Button mt={4} colorScheme="teal" type="submit">Submit</Button>
+        </Box>
+      </form>
+    </div>
+
   )
 }
-
- export default IndexPage
