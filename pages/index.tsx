@@ -118,7 +118,7 @@ const SingleDatepickerCalendar = (props: RenderProps) => {
                     const isDisabled = prevMonth || nextMonth;
 
                     const style = () => {
-                      const obj: LooseObject = {
+                      const obj = {
                         variant: "outline",
                         borderColor: "transparent"
                       };
@@ -128,7 +128,7 @@ const SingleDatepickerCalendar = (props: RenderProps) => {
                       }
 
                       if (selected) {
-                        obj.bg = "purple.200";
+                        obj.borderColor = "purple.200";
                       }
 
                       return obj;
