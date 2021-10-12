@@ -21,12 +21,14 @@
     "next-connect": "^0.10.2",
     "nodemailer": "^6.6.5",
     "react": "17.0.2",
+    "react-datepicker": "^4.2.1",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.17.1"
   },
   "devDependencies": {
     "@types/node": "^16.10.2",
     "@types/react": "^17.0.27",
+    "@types/react-datepicker": "^4.1.7",
     "typescript": "^4.4.3"
   }
 }
