@@ -1,1 +1,1 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+This page was created with Nextjs and was to understand how the forms and the backend system work.
